@@ -52,20 +52,21 @@
             background: linear-gradient(135deg, #f8f9fa, #e9ecef);
         }
 
-        .logo {
-            width: 72px;
-            height: 72px;
-            border-radius: 36px;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.15);
-            flex: 0 0 72px;
-            overflow: hidden;
-        }
+       .logo {
+    width: 72px;
+    height: 72px;
+    border-radius: 36px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+    flex: 0 0 72px;
+    overflow: hidden; /* This ensures the image stays within the rounded corners */
+}
 
-        .logo img {
-            width: 100%;
-            height: 100%;
-            object-fit: contain;
-            display: block;
+.logo img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain; /* or 'cover' depending on your preference */
+    display: block;
+}
         }
 
         .org {
@@ -311,6 +312,7 @@
                 width: 60px;
                 height: 60px;
                 border-radius: 30px;
+                font-size: 16px;
             }
             
             .org h2 {
@@ -336,8 +338,8 @@
     <div class="container" role="main">
         <header>
             <div class="logo">
-                <img src="photo_2025-12-01_23-26-08.jpg" alt="Harari Regional State Logo" style="width: 100%; height: 100%; object-fit: contain; border-radius: inherit;">
-            </div>
+    <img src="photo_2025-12-01_23-26-08.jpg" alt="Harari Regional State Logo" style="width: 100%; height: 100%; object-fit: contain; border-radius: inherit;">
+</div>
             <div class="org">
                 <h2>HARARI PEOPLE REGIONAL STATE</h2>
                 <p>OCCUPATIONAL COMPETENCE ASSURANCE CENTER</p>
@@ -352,7 +354,7 @@
 
             <div class="example">
                 <div class="example-title">Example Control Number:</div>
-                <div class="example-code">5080065</div>
+                <div class="example-code">50820XX</div>
             </div>
 
             <form id="certificate-form">
@@ -425,7 +427,7 @@
     </div>
 
     <script>
-        // Certificate Database - Updated with 5080065
+        // Certificate Database
         const certificateDatabase = [
             {
                 controlNumber: "5083062",
@@ -477,23 +479,23 @@
                 gender: "Female",
                 occupation: "Information Communication Technology",
                 level: "4",
-                certificateNumber: "ICT 18F4/25/28/0987",
+                certificateNumber: "MKT 16F4/24/27/0876",
                 issueDate: "2025-12-02",
                 expireDate: "2028-12-02",
                 status: "VALID"
-            },
+            },    
             {
                 controlNumber: "5080065",
                 fullName: "Tariku Chalchisa Fite",
                 gender: "Male",
                 occupation: "Marketing Management",
                 level: "4",
-                certificateNumber: "MKT 19M4/25/29/1123",
-                issueDate: "2025-12-01",
-                expireDate: "2028-12-01",
+                certificateNumber: "MKT 16F4/24/27/0876",
+                issueDate: "2022-12-05",
+                expireDate: "2025-12-04",
                 status: "VALID"
-            }
-        ];
+            },   
+        ]
 
         // Initialize when page loads
         document.addEventListener('DOMContentLoaded', function() {
@@ -506,9 +508,6 @@
                 e.preventDefault();
                 verifyCertificate();
             });
-            
-            // Set example control number in input field for easy testing
-            document.getElementById('control-number').placeholder = "e.g., 5080065";
         });
 
         function verifyCertificate() {
@@ -524,7 +523,7 @@
             const certificate = certificateDatabase.find(cert => cert.controlNumber === controlNumber);
             
             if (certificate) {
-                // Update result fields with certificate data
+                // Update result fields
                 document.getElementById('result-name').textContent = certificate.fullName;
                 document.getElementById('result-gender').textContent = certificate.gender;
                 document.getElementById('result-occupation').textContent = certificate.occupation;
