@@ -137,92 +137,22 @@
             box-shadow: 0 0 0 3px rgba(30, 78, 168, 0.1);
         }
 
-        /* QR Scanner Styles */
-        .qr-option {
-            text-align: center;
-            margin: 15px 0;
-            color: var(--muted);
-            font-size: 16px;
-        }
-
-        .or-divider {
-            display: flex;
-            align-items: center;
-            margin: 20px 0;
-        }
-
-        .or-divider::before,
-        .or-divider::after {
-            content: '';
-            flex: 1;
-            height: 1px;
-            background: #e0e0e0;
-        }
-
-        .or-divider span {
-            padding: 0 15px;
-            color: var(--muted);
-        }
-
-        .qr-scanner-container {
-            margin: 20px 0;
-            display: none;
-        }
-
-        #qr-reader {
-            width: 100%;
-            margin: 0 auto;
-        }
-
-        #qr-reader__dashboard_section {
-            padding: 15px;
-        }
-
-        .btn-group {
-            display: flex;
-            gap: 10px;
-            margin-top: 20px;
-        }
-
-        .btn {
+        .submit-btn {
+            background: linear-gradient(135deg, var(--brand-blue), var(--brand-purple));
+            color: white;
+            border: none;
             padding: 14px 24px;
             border-radius: 6px;
             font-size: 16px;
             font-weight: 600;
             cursor: pointer;
             transition: all 0.3s ease;
-            border: none;
-            flex: 1;
-            text-align: center;
-        }
-
-        .submit-btn {
-            background: linear-gradient(135deg, var(--brand-blue), var(--brand-purple));
-            color: white;
-        }
-
-        .qr-btn {
-            background: linear-gradient(135deg, #27ae60, #2ecc71);
-            color: white;
-        }
-
-        .cancel-scan-btn {
-            background: linear-gradient(135deg, #e74c3c, #c0392b);
-            color: white;
-            display: none;
-        }
-
-        .btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            width: 100%;
         }
 
         .submit-btn:hover {
+            transform: translateY(-2px);
             box-shadow: 0 4px 12px rgba(30, 78, 168, 0.3);
-        }
-
-        .qr-btn:hover {
-            box-shadow: 0 4px 12px rgba(39, 174, 96, 0.3);
         }
 
         /* Example Section */
@@ -374,10 +304,6 @@
             .verification-section {
                 padding: 20px;
             }
-            
-            .btn-group {
-                flex-direction: column;
-            }
         }
 
         @media (max-width: 480px) {
@@ -405,8 +331,6 @@
             }
         }
     </style>
-    <!-- Include html5-qrcode library -->
-    <script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>
 </head>
 <body>
     <div class="container" role="main">
@@ -423,12 +347,12 @@
         <section class="verification-section">
             <div class="section-title">
                 <h2>Certificate Verification</h2>
-                <p class="instructions">Enter the Control Number or scan QR code to verify certificate validity</p>
+                <p class="instructions">Enter the Control Number to verify certificate validity</p>
             </div>
 
             <div class="example">
                 <div class="example-title">Example Control Number:</div>
-                <div class="example-code">50820XX</div>
+                <div class="example-code">5080065</div>
             </div>
 
             <form id="certificate-form">
@@ -436,20 +360,7 @@
                     <label for="control-number">Control Number:</label>
                     <input type="text" id="control-number" placeholder="Enter control number" required>
                 </div>
-                
-                <div class="or-divider">
-                    <span>OR</span>
-                </div>
-                
-                <div class="qr-scanner-container" id="qr-scanner-container">
-                    <div id="qr-reader"></div>
-                </div>
-                
-                <div class="btn-group">
-                    <button type="submit" class="btn submit-btn">Verify Certificate</button>
-                    <button type="button" class="btn qr-btn" id="scan-qr-btn">Scan QR Code</button>
-                    <button type="button" class="btn cancel-scan-btn" id="cancel-scan-btn">Cancel Scan</button>
-                </div>
+                <button type="submit" class="submit-btn">Verify Certificate</button>
             </form>
 
             <!-- Valid Certificate Result -->
@@ -514,7 +425,7 @@
     </div>
 
     <script>
-        // Certificate Database
+        // Certificate Database - Updated with 5080065
         const certificateDatabase = [
             {
                 controlNumber: "5083062",
@@ -566,27 +477,23 @@
                 gender: "Female",
                 occupation: "Information Communication Technology",
                 level: "4",
-                certificateNumber: "MKT 16F4/24/27/0876",
+                certificateNumber: "ICT 18F4/25/28/0987",
                 issueDate: "2025-12-02",
                 expireDate: "2028-12-02",
                 status: "VALID"
-            },    
+            },
             {
                 controlNumber: "5080065",
                 fullName: "Tariku Chalchisa Fite",
                 gender: "Male",
                 occupation: "Marketing Management",
                 level: "4",
-                certificateNumber: "MKT 16F4/24/27/0876",
-                issueDate: "2022-12-05",
-                expireDate: "2025-12-04",
+                certificateNumber: "MKT 19M4/25/29/1123",
+                issueDate: "2025-12-01",
+                expireDate: "2028-12-01",
                 status: "VALID"
-            },   
-        ]
-
-        // QR Code Scanner Variables
-        let html5QrcodeScanner = null;
-        let isScanning = false;
+            }
+        ];
 
         // Initialize when page loads
         document.addEventListener('DOMContentLoaded', function() {
@@ -600,91 +507,9 @@
                 verifyCertificate();
             });
             
-            // Handle QR scan button click
-            document.getElementById('scan-qr-btn').addEventListener('click', function() {
-                startQRScanner();
-            });
-            
-            // Handle cancel scan button click
-            document.getElementById('cancel-scan-btn').addEventListener('click', function() {
-                stopQRScanner();
-            });
-            
-            // Initialize QR scanner
-            initializeQRScanner();
+            // Set example control number in input field for easy testing
+            document.getElementById('control-number').placeholder = "e.g., 5080065";
         });
-
-        function initializeQRScanner() {
-            // Configuration for QR scanner
-            const config = { 
-                fps: 10,
-                qrbox: { width: 250, height: 250 },
-                rememberLastUsedCamera: true,
-                supportedScanTypes: [Html5QrcodeScanType.SCAN_TYPE_CAMERA]
-            };
-            
-            // Create scanner instance
-            html5QrcodeScanner = new Html5Qrcode("qr-reader");
-        }
-
-        function startQRScanner() {
-            if (isScanning) return;
-            
-            // Show scanner container
-            document.getElementById('qr-scanner-container').style.display = 'block';
-            document.getElementById('cancel-scan-btn').style.display = 'block';
-            document.getElementById('scan-qr-btn').style.display = 'none';
-            document.getElementById('control-number').disabled = true;
-            
-            // Start scanning
-            html5QrcodeScanner.start(
-                { facingMode: "environment" },
-                config,
-                onScanSuccess,
-                onScanError
-            ).then(() => {
-                isScanning = true;
-            }).catch(err => {
-                console.error("Unable to start scanning", err);
-                alert("Unable to access camera. Please check permissions.");
-                stopQRScanner();
-            });
-        }
-
-        function stopQRScanner() {
-            if (html5QrcodeScanner && isScanning) {
-                html5QrcodeScanner.stop().then(() => {
-                    isScanning = false;
-                    // Hide scanner container
-                    document.getElementById('qr-scanner-container').style.display = 'none';
-                    document.getElementById('cancel-scan-btn').style.display = 'none';
-                    document.getElementById('scan-qr-btn').style.display = 'block';
-                    document.getElementById('control-number').disabled = false;
-                }).catch(err => {
-                    console.error("Failed to stop scanner", err);
-                });
-            }
-        }
-
-        function onScanSuccess(decodedText, decodedResult) {
-            console.log(`QR Code scanned: ${decodedText}`);
-            
-            // Stop scanning
-            stopQRScanner();
-            
-            // Set the scanned value in the control number field
-            document.getElementById('control-number').value = decodedText.trim();
-            
-            // Auto-verify the certificate
-            setTimeout(() => {
-                verifyCertificate();
-            }, 500);
-        }
-
-        function onScanError(error) {
-            // Handle scan errors silently
-            console.warn(`QR Code scan error: ${error}`);
-        }
 
         function verifyCertificate() {
             const controlNumber = document.getElementById('control-number').value.trim();
@@ -699,7 +524,7 @@
             const certificate = certificateDatabase.find(cert => cert.controlNumber === controlNumber);
             
             if (certificate) {
-                // Update result fields
+                // Update result fields with certificate data
                 document.getElementById('result-name').textContent = certificate.fullName;
                 document.getElementById('result-gender').textContent = certificate.gender;
                 document.getElementById('result-occupation').textContent = certificate.occupation;
